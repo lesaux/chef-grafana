@@ -67,6 +67,14 @@ template "#{node['grafana']['conf_dir']}/grafana.ini" do
   notifies :restart, 'service[grafana-server]', :immediate
 end
 
+cookbook_file '/etc/init.d/grafana-server' do
+  source 'grafana-server.init'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
 service 'grafana-server' do
   supports start: true, stop: true, restart: true, status: true, reload: false
   action [:enable, :start]
